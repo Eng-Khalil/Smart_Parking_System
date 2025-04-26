@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/utils/constants.dart';
+//import '../../../core/utils/constants.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';

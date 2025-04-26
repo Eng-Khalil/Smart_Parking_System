@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/parking_spot.dart';
+import '../../../models/parking_spot.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -36,10 +36,11 @@ class _AdminScreenState extends State<AdminScreen> {
     final spot = ParkingSpot.fromFirestore(doc);
     showDialog(
       context: context,
-      builder: (context) => ParkingSpotDialog(
-        spot: spot,
-        onSave: (updatedSpot) => _updateParkingSpot(doc.id, updatedSpot),
-      ),
+      builder:
+          (context) => ParkingSpotDialog(
+            spot: spot,
+            onSave: (updatedSpot) => _updateParkingSpot(doc.id, updatedSpot),
+          ),
     );
   }
 
@@ -51,9 +52,10 @@ class _AdminScreenState extends State<AdminScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => FirebaseAuth.instance.signOut().then((_) {
-              Navigator.pushReplacementNamed(context, '/login');
-            }),
+            onPressed:
+                () => FirebaseAuth.instance.signOut().then((_) {
+                  Navigator.pushReplacementNamed(context, '/login');
+                }),
           ),
         ],
       ),
@@ -72,7 +74,8 @@ class _AdminScreenState extends State<AdminScreen> {
               return ListTile(
                 title: Text(spot.name),
                 subtitle: Text(
-                    '${spot.availableSlots}/${spot.totalSlots} slots - ${spot.pricePerHour} UGX/hr'),
+                  '${spot.availableSlots}/${spot.totalSlots} slots - ${spot.pricePerHour} UGX/hr',
+                ),
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () => _showEditDialog(doc),
@@ -84,13 +87,15 @@ class _AdminScreenState extends State<AdminScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => ParkingSpotDialog(
-            spot: ParkingSpot.empty(),
-            onSave: _addParkingSpot,
-          ),
-        ),
+        onPressed:
+            () => showDialog(
+              context: context,
+              builder:
+                  (context) => ParkingSpotDialog(
+                    spot: ParkingSpot.empty(),
+                    onSave: _addParkingSpot,
+                  ),
+            ),
       ),
     );
   }
@@ -100,8 +105,11 @@ class ParkingSpotDialog extends StatefulWidget {
   final ParkingSpot spot;
   final Function(ParkingSpot) onSave;
 
-  const ParkingSpotDialog(
-      {super.key, required this.spot, required this.onSave});
+  const ParkingSpotDialog({
+    super.key,
+    required this.spot,
+    required this.onSave,
+  });
 
   @override
   State<ParkingSpotDialog> createState() => _ParkingSpotDialogState();
@@ -118,12 +126,15 @@ class _ParkingSpotDialogState extends State<ParkingSpotDialog> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.spot.name);
-    _priceController =
-        TextEditingController(text: widget.spot.pricePerHour.toString());
-    _availableController =
-        TextEditingController(text: widget.spot.availableSlots.toString());
-    _totalController =
-        TextEditingController(text: widget.spot.totalSlots.toString());
+    _priceController = TextEditingController(
+      text: widget.spot.pricePerHour.toString(),
+    );
+    _availableController = TextEditingController(
+      text: widget.spot.availableSlots.toString(),
+    );
+    _totalController = TextEditingController(
+      text: widget.spot.totalSlots.toString(),
+    );
   }
 
   @override
@@ -143,8 +154,9 @@ class _ParkingSpotDialogState extends State<ParkingSpotDialog> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration:
-                    const InputDecoration(labelText: 'Price per hour (UGX)'),
+                decoration: const InputDecoration(
+                  labelText: 'Price per hour (UGX)',
+                ),
                 keyboardType: TextInputType.number,
                 validator: (value) => value!.isEmpty ? 'Required' : null,
               ),
